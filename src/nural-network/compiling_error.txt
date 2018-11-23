@@ -1,0 +1,12 @@
+g++: error: util/Matrix.cpp: No such file or directory
+g++: error: util/Matrix.h: No such file or directory
+g++: error: regression/Regression.cpp: No such file or directory
+g++: error: regression/Regression.h: No such file or directory
+g++: error: knn/Knn.cpp: No such file or directory
+g++: error: knn/Knn.h: No such file or directory
+g++: error: nural-network/NuralNetwork.cpp: No such file or directory
+g++: error: nural-network/NuralNetwork.h: No such file or directory
+g++: error: util/Node.cpp: No such file or directory
+g++: error: util/Node.h: No such file or directory
+g++: error: util/Functions.h: No such file or directory
+g++: error: util/Functions.cpp: No such file or directory
