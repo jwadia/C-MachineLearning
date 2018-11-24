@@ -11,6 +11,7 @@ class Functions {
   public:
     Functions();
     double sigmoid(double input);
+    double dsigmoid(double input);
 };
 
 #endif

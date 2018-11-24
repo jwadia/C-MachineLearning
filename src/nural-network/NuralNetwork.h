@@ -13,6 +13,7 @@ class NuralNetwork {
   public:
     NuralNetwork(std::vector<int> layers);
     std::vector<double> predict(std::vector<double> inputs);
+    void backpropogation(std::vector<double> inputs, std::vector<double> outputs); 
 };
 
 #endif

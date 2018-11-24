@@ -28,6 +28,7 @@ std::vector<double> NuralNetwork::predict(std::vector<double> inputs) {
       for(int k = 0; k < network[i-1].size(); k++) {
         sum+=network[i-1][k].getWeights()[j]*network[i-1][k].getValue();
       }
+      network[i][j].setPreSigmoidValue(sum);
       network[i][j].setValue(func.sigmoid(sum));
     }
   }
@@ -36,4 +37,48 @@ std::vector<double> NuralNetwork::predict(std::vector<double> inputs) {
     output.push_back(i.getValue());
   }
   return output;
+}
+
+void NuralNetwork::backpropogation(std::vector<double> inputs, std::vector<double> output) {
+  std::vector<double> outputSumMarginError = {};
+  std::vector<double> deltaOutputSum = {};
+  std::vector<std::vector<double>> deltaWeights = {};
+  std::vector<std::vector<double>> tempWeights = {};
+  std::vector<double> calculated = predict(inputs);
+  int count = 0;
+  Functions f;
+  for(int i = 0; i < calculated.size(); i++) {
+    outputSumMarginError.push_back(output[i]-calculated[i]);
+  }
+  for(int i = 0; i < network[network.size()-1].size(); i++) {
+    deltaOutputSum.push_back(f.dsigmoid(network[network.size()-1][i].getPreSigmoidValue())*outputSumMarginError[i]);
+  }
+  for(int i = 0; i < network[network.size()-2].size(); i++) {
+    tempWeights.push_back({});
+    for(int j = 0; j < network[network.size()-2][i].getWeights().size(); j++) {
+      tempWeights[i].push_back(network[network.size()-2][i].getWeights()[j]);
+    }
+  }
+  for(Node j:network[network.size()-2]) {
+    deltaWeights.push_back({});
+    for(double i:deltaOutputSum) {
+      deltaWeights[count].push_back(i*j.getValue());
+    }
+    count++;
+  }
+  count = 0;
+  for(int i = 0; i < network[network.size()-2].size(); i++) {
+    for(int j = 0; j < network[network.size()-1].size(); j++) {
+      tempWeights[i][j]=tempWeights[i][j]+deltaWeights[i][j];
+      std::cout<<tempWeights[i][j]<<" ";
+    }
+    std::cout<<std::endl;
+  }
+  std::cout<<network[network.size()-2][0].getWeights()[0]<<std::endl;
+  for(Node i:network[network.size()-2]) {
+    i.setWeights(tempWeights[count]);
+    count++;
+  }
+  count = 0;
+  std::cout<<network[network.size()-2][0].getPastWeights()[0]<<std::endl;
 }
